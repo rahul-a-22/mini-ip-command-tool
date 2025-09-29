@@ -1,8 +1,10 @@
 #include <iostream>
 #include "cli/cli.h"
 
+using namespace std;
+
 int main() {
-    std::cout << "Welcome to the Mini IP Command Tool!" << std::endl;
+    cout << "Welcome to the Mini IP Command Tool!" << endl;
     runCLI();
     return 0;
 }

@@ -4,24 +4,26 @@
 #include <string>
 #include <ctime>
 
-void logAction(const std::string& action) {
-    std::ofstream logFile("logs/actions.log", std::ios_base::app);
+using namespace std;
+
+void logAction(const string& action) {
+    ofstream logFile("logs/actions.log", ios_base::app);
     if (logFile.is_open()) {
-        std::time_t now = std::time(nullptr);
-        logFile << std::ctime(&now) << ": " << action << std::endl;
+        time_t now = time(nullptr);
+        logFile << ctime(&now) << ": " << action << endl;
         logFile.close();
     } else {
-        std::cerr << "Unable to open log file." << std::endl;
+        cerr << "Unable to open log file." << endl;
     }
 }
 
-bool validateIPAddress(const std::string& ip) {
+bool validateIPAddress(const string& ip) {
     // Simple validation for IPv4 format
-    std::string octet;
+    string octet;
     int dotCount = 0;
     for (char c : ip) {
         if (c == '.') {
-            if (octet.empty() || std::stoi(octet) > 255) return false;
+            if (octet.empty() || stoi(octet) > 255) return false;
             dotCount++;
             octet.clear();
         } else if (isdigit(c)) {
@@ -30,5 +32,5 @@ bool validateIPAddress(const std::string& ip) {
             return false;
         }
     }
-    return dotCount == 3 && !octet.empty() && std::stoi(octet) <= 255;
+    return dotCount == 3 && !octet.empty() && stoi(octet) <= 255;
 }

@@ -14,7 +14,9 @@
 
 #include <iostream>
 
-bool DNSResolver::ResolveHostname(const std::string& hostname, std::vector<std::string>& outIps) {
+using namespace std;
+
+bool DNSResolver::ResolveHostname(const string& hostname, vector<string>& outIps) {
 #ifdef _WIN32
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
@@ -57,7 +59,7 @@ bool DNSResolver::ResolveHostname(const std::string& hostname, std::vector<std::
     return !outIps.empty();
 }
 
-bool DNSResolver::ReverseLookup(const std::string& ip, std::string& outName) {
+bool DNSResolver::ReverseLookup(const string& ip, string& outName) {
 #ifdef _WIN32
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {

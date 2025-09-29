@@ -14,4 +14,4 @@ public:
     virtual void resetFlushDNS() = 0;
 };
 
-#endif // INETWORKBACKEND_H
+#endif 

@@ -8,87 +8,89 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 void displayMenu() {
-    std::cout << "Mini IP Command Tool" << std::endl;
-    std::cout << "1. View Current IP Configuration" << std::endl;
-    std::cout << "2. DNS Resolver (resolve hostname / reverse lookup)" << std::endl;
-    std::cout << "3. Set Static IP Address" << std::endl;
-    std::cout << "4. Enable DHCP" << std::endl;
-    std::cout << "5. Change DNS Servers" << std::endl;
-    std::cout << "6. Reset/Flush DNS" << std::endl;
-    std::cout << "7. Exit" << std::endl;
+    cout << "Mini IP Command Tool" << endl;
+    cout << "1. View Current IP Configuration" << endl;
+    cout << "2. DNS Resolver (resolve hostname / reverse lookup)" << endl;
+    cout << "3. Set Static IP Address" << endl;
+    cout << "4. Enable DHCP" << endl;
+    cout << "5. Change DNS Servers" << endl;
+    cout << "6. Reset/Flush DNS" << endl;
+    cout << "7. Exit" << endl;
 }
 
 void handleUserInput(IPManager& ipManager) {
     int choice;
-    std::string ipAddress, subnetMask, gateway, dns1, dns2;
+    string ipAddress, subnetMask, gateway, dns1, dns2;
 
     while (true) {
         displayMenu();
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        cout << "Enter your choice: ";
+        cin >> choice;
 
         switch (choice) {
             case 1:
                 ipManager.viewCurrentConfiguration();
                 break;
             case 2: {
-                std::cout << "DNS Resolver:\n1) Resolve hostname\n2) Reverse lookup (IP to name)\nChoose: ";
+                cout << "DNS Resolver:\n1) Resolve hostname\n2) Reverse lookup (IP to name)\nChoose: ";
                 int sub;
-                std::cin >> sub;
+                cin >> sub;
                 if (sub == 1) {
-                    std::cout << "Enter hostname: ";
-                    std::string host;
-                    std::cin >> host;
-                    std::vector<std::string> ips;
+                    cout << "Enter hostname: ";
+                    string host;
+                    cin >> host;
+                    vector<string> ips;
                     if (DNSResolver::ResolveHostname(host, ips)) {
-                        std::cout << "Resolved IPs:\n";
-                        for (auto &a : ips) std::cout << "  " << a << std::endl;
+                        cout << "Resolved IPs:\n";
+                        for (auto &a : ips) cout << "  " << a << endl;
                     } else {
-                        std::cout << "Resolution failed for " << host << std::endl;
+                        cout << "Resolution failed for " << host << endl;
                     }
                 } else if (sub == 2) {
-                    std::cout << "Enter IP address: ";
-                    std::string ip;
-                    std::cin >> ip;
-                    std::string name;
+                    cout << "Enter IP address: ";
+                    string ip;
+                    cin >> ip;
+                    string name;
                     if (DNSResolver::ReverseLookup(ip, name)) {
-                        std::cout << "Hostname: " << name << std::endl;
+                        cout << "Hostname: " << name << endl;
                     } else {
-                        std::cout << "Reverse lookup failed for " << ip << std::endl;
+                        cout << "Reverse lookup failed for " << ip << endl;
                     }
                 } else {
-                    std::cout << "Invalid selection." << std::endl;
+                    cout << "Invalid selection." << endl;
                 }
                 break;
             }
             case 3:
-                std::cout << "Enter Static IP Address: ";
-                std::cin >> ipAddress;
-                std::cout << "Enter Subnet Mask: ";
-                std::cin >> subnetMask;
-                std::cout << "Enter Gateway: ";
-                std::cin >> gateway;
+                cout << "Enter Static IP Address: ";
+                cin >> ipAddress;
+                cout << "Enter Subnet Mask: ";
+                cin >> subnetMask;
+                cout << "Enter Gateway: ";
+                cin >> gateway;
                 ipManager.setStaticIP(ipAddress, subnetMask, gateway);
                 break;
             case 4:
                 ipManager.enableDHCP();
                 break;
             case 5:
-                std::cout << "Enter Primary DNS: ";
-                std::cin >> dns1;
-                std::cout << "Enter Secondary DNS: ";
-                std::cin >> dns2;
+                cout << "Enter Primary DNS: ";
+                cin >> dns1;
+                cout << "Enter Secondary DNS: ";
+                cin >> dns2;
                 ipManager.changeDNSServers(dns1, dns2);
                 break;
             case 6:
                 ipManager.resetDNS();
                 break;
             case 7:
-                std::cout << "Exiting..." << std::endl;
+                cout << "Exiting..." << endl;
                 return;
             default:
-                std::cout << "Invalid choice. Please try again." << std::endl;
+                cout << "Invalid choice. Please try again." << endl;
         }
     }
 }

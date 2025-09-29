@@ -8,11 +8,13 @@
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "Ws2_32.lib")
 
+using namespace std;
+
 void WindowsNetwork::viewCurrentConfiguration() {
     // Initialize Winsock because getnameinfo requires it on some platforms
     WSADATA wsaData;
     if (WSAStartup(MAKEWORD(2,2), &wsaData) != 0) {
-        std::cerr << "WSAStartup failed" << std::endl;
+        cerr << "WSAStartup failed" << endl;
         return;
     }
 
@@ -21,7 +23,7 @@ void WindowsNetwork::viewCurrentConfiguration() {
     ULONG outBufLen = 15000;
     PIP_ADAPTER_ADDRESSES adapters = (PIP_ADAPTER_ADDRESSES)malloc(outBufLen);
     if (!adapters) {
-        std::cerr << "Memory allocation failed for adapter addresses" << std::endl;
+        cerr << "Memory allocation failed for adapter addresses" << endl;
         WSACleanup();
         return;
     }
@@ -31,7 +33,7 @@ void WindowsNetwork::viewCurrentConfiguration() {
         free(adapters);
         adapters = (PIP_ADAPTER_ADDRESSES)malloc(outBufLen);
         if (!adapters) {
-            std::cerr << "Memory allocation failed for adapter addresses" << std::endl;
+            cerr << "Memory allocation failed for adapter addresses" << endl;
             WSACleanup();
             return;
         }
@@ -42,9 +44,9 @@ void WindowsNetwork::viewCurrentConfiguration() {
         for (PIP_ADAPTER_ADDRESSES adapter = adapters; adapter != nullptr; adapter = adapter->Next) {
             // Print adapter friendly name (wide string)
             if (adapter->FriendlyName) {
-                std::wcout << L"Adapter: " << adapter->FriendlyName << std::endl;
+                wcout << L"Adapter: " << adapter->FriendlyName << endl;
             } else if (adapter->AdapterName) {
-                std::cout << "Adapter: " << adapter->AdapterName << std::endl;
+                cout << "Adapter: " << adapter->AdapterName << endl;
             }
 
             // Iterate unicast addresses
@@ -55,34 +57,34 @@ void WindowsNetwork::viewCurrentConfiguration() {
                                      addrBuf, sizeof(addrBuf),
                                      nullptr, 0, NI_NUMERICHOST);
                 if (rc == 0) {
-                    std::cout << "  IP Address: " << addrBuf << std::endl;
+                    cout << "  IP Address: " << addrBuf << endl;
                 }
             }
 
-            std::cout << std::endl;
+            cout << endl;
         }
     } else {
-        std::cerr << "GetAdaptersAddresses() failed with error: " << ret << std::endl;
+        cerr << "GetAdaptersAddresses() failed with error: " << ret << endl;
     }
 
     if (adapters) free(adapters);
     WSACleanup();
 }
 
-void WindowsNetwork::setStaticIP(const std::string& ipAddress, const std::string& subnetMask, const std::string& gateway) {
-    std::cout << "Setting static IP to " << ipAddress << " with subnet mask " << subnetMask
-              << " and gateway " << gateway << " (Windows)." << std::endl;
+void WindowsNetwork::setStaticIP(const string& ipAddress, const string& subnetMask, const string& gateway) {
+    cout << "Setting static IP to " << ipAddress << " with subnet mask " << subnetMask
+              << " and gateway " << gateway << " (Windows)." << endl;
 }
 
 void WindowsNetwork::enableDHCP() {
-    std::cout << "Enabling DHCP (Windows)." << std::endl;
+    cout << "Enabling DHCP (Windows)." << endl;
 }
 
-void WindowsNetwork::changeDNSServers(const std::string& primaryDNS, const std::string& secondaryDNS) {
-    std::cout << "Changing DNS servers to Primary: " << primaryDNS
-              << " and Secondary: " << secondaryDNS << " (Windows)." << std::endl;
+void WindowsNetwork::changeDNSServers(const string& primaryDNS, const string& secondaryDNS) {
+    cout << "Changing DNS servers to Primary: " << primaryDNS
+              << " and Secondary: " << secondaryDNS << " (Windows)." << endl;
 }
 
 void WindowsNetwork::resetFlushDNS() {
-    std::cout << "Resetting/flushing DNS (Windows)." << std::endl;
+    cout << "Resetting/flushing DNS (Windows)." << endl;
 }
