@@ -84,9 +84,3 @@ Run the program and follow the interactive menu. Use option 2 to use the DNS res
 
 ## Platform notes
 - Platform-specific operations (set IP, DHCP, DNS changes, flush) are implemented in backend modules under `src/backend/windows` and `src/backend/linux`. Some actions may require elevated privileges (Administrator/root).
-
-## Contributing
-Contributions are welcome. Open issues or submit pull requests for features, bug fixes, or tests.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
